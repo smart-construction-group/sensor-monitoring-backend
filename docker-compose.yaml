@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+    postgres:
+        container_name: sensor-db
+        image: postgres:14.0
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: "${PG_PASSWORD}"
+            POSTGRES_DB: postgres
+        volumes:
+            - /db_data:/var/lib/postgresql/data
+        ports:
+            - 30432:5432
+    server:
+        container_name: sensor-backend
+        build:
+            context: ./server
+        depends_on: [postgres]
+        restart: always
+        ports:
+            - 8080:9090
+        env_file:
+            - server/.env
+        environment: 
+            - DATABASE_URL=postgres://postgres:postgresPassword@postgres:5432/postgres
