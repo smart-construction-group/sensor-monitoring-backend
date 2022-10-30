@@ -32,6 +32,10 @@ export class SensorTable extends Table {
                 break;
             case "daily": interval = "day"
                 break;
+            case "5min": return await this.getXMinInterval(type, from, to, 5)
+            case "15min": return await this.getXMinInterval(type, from, to, 15)
+            case "30min": return await this.getXMinInterval(type, from, to, 30)
+
             default: throw Error("interval is not defined")
         }
         var q = `
@@ -43,6 +47,18 @@ export class SensorTable extends Table {
                 ORDER  BY ts;
             `
 
+        const res = await this.db.pool.query(q)
+        return res.rows
+    }
+    async getXMinInterval(type: String, from: String, to: String, intervalNumber: number){
+        const q = `
+        SELECT type, device.name, device.device_id, location_x as x, location_y as y, date_trunc('hour', time) + (extract(minute FROM time)::int / ${intervalNumber}) * ${intervalNumber} * interval '1 minute' AS ts
+        , count(*) AS total_records, avg(value) as value
+        FROM   pollution_heatmap.sensor inner join pollution_heatmap.device on device.device_id = sensor.device_id
+        WHERE time >= '${from}' and time <= '${to}' and type = '${type}'
+        GROUP  BY type, device.name, device.device_id, ts, location_y, location_x
+        ORDER  BY ts;
+        `
         const res = await this.db.pool.query(q)
         return res.rows
     }

@@ -27,13 +27,23 @@ describe('Validate', function() {
         var db = new DB('pollution_heatmap')
         let res = await (new SensorTable(db)).removeDuplicate()
     })
-    it("can get the data report", async()=>{
+    xit("can get the data report", async()=>{
         var db = new DB('pollution_heatmap')
         let res = await (new SensorTable(db)).getSensorReport(
             "temperature",
             "2022-10-24",
             "2022-10-25",
             "hourly"
+        )
+        console.log(res)
+    })
+    it("can get 5 min data report", async()=>{
+        var db = new DB('pollution_heatmap')
+        let res = await (new SensorTable(db)).getSensorReport(
+            "temperature",
+            "2022-10-24",
+            "2022-10-25",
+            "5min"
         )
         console.log(res)
     })
