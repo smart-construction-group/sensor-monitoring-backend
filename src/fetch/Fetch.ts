@@ -92,7 +92,7 @@ export async function sensorsFetchEngine(db: DB) {
             `id=${syncLog.id}`)
 
           await sensorTable.removeDuplicate()
-          await sleep(2000) // avoid too many requests
+          await sleep(1000) // avoid too many requests
         }
 
       }
@@ -101,4 +101,5 @@ export async function sensorsFetchEngine(db: DB) {
 
     await sleep(1 * 60 * 1000) //every 1 min
   }
+
 }
