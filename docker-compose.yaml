@@ -15,7 +15,7 @@ services:
     server:
         container_name: sensor-backend
         build:
-            context: ./server
+            context: .
         depends_on: [postgres]
         restart: always
         ports:
