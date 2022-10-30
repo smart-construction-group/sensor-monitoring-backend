@@ -8,11 +8,6 @@ services:
         environment:
             POSTGRES_PASSWORD: "${PG_PASSWORD}"
             POSTGRES_DB: postgres
-            REST_PORT: "${REST_PORT}"
-            HIBOU_URL: "${HIBOU_URL}"
-            HIBOU_CODE: "${HIBOU_CODE}"
-            HIBOU_KEY: "${HIBOU_KEY}"
-            HIBOU_APP: "${HIBOU_APP}"
         volumes:
             - /db_data:/var/lib/postgresql/data
         ports:
@@ -26,4 +21,9 @@ services:
         ports:
             - 8080:9090
         environment: 
-            - DATABASE_URL=postgres://postgres:postgresPassword@postgres:5432/postgres
+            DATABASE_URL: "postgres://postgres:${PG_PASSWORD}@postgres:5432/postgres"
+            REST_PORT: "${REST_PORT}"
+            HIBOU_URL: "${HIBOU_URL}"
+            HIBOU_CODE: "${HIBOU_CODE}"
+            HIBOU_KEY: "${HIBOU_KEY}"
+            HIBOU_APP: "${HIBOU_APP}"
