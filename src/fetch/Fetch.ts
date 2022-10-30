@@ -56,12 +56,28 @@ export async function sensorsFetchEngine(db: DB) {
         let syncLog = syncLogs[0]
 
         /* If there's no record for this device */
-        if (!syncLog || !syncLog.first_record_date) {
-          var from = new Date();
-          from.setDate(0);
-          from.setDate(1); //last month
-          var to = new Date()
+        if (!syncLog) {
+          let from = new Date("2022-09-1")
+          let to = new Date("2022-09-1")
 
+          await syncLongTable.insert(
+            ['device_id', 'type', 'first_record_date', 'last_record_date'],
+            [device.device_id, type.name, from, to]
+          )
+          syncLogs = await syncLongTable.get(`device_id='${device.device_id}' and type='${type.name}'`)
+          syncLog = syncLogs[0]
+
+        }
+
+        let to = new Date(syncLog.last_record_date)
+        let currentDate = new Date()
+
+        while(to < currentDate){
+          let from = new Date(syncLog.last_record_date)
+          to.setDate(to.getDate() + 1)
+          if(to > currentDate){
+            to = currentDate
+          }
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
           for (let record of records) {
             sensorTable.insert(
@@ -69,32 +85,16 @@ export async function sensorsFetchEngine(db: DB) {
               [record.ts, device.name, record.sensorid, type.name, record.value]
             )
           }
-          syncLongTable.insert(
-            ['device_id', 'type', 'first_record_date', 'last_record_date'],
-            [device.device_id, type.name, from, to]
-          )
-        } else {
+          
+          syncLongTable.update(
+            ['last_record_date'],
+            [to.toLocaleString()],
+            `id=${syncLog.id}`)
 
-          /* if enough time has passed from last update */
-          let lrd = new Date(syncLog.last_record_date)
-          if (Date.now() - lrd.getTime() > 5 * 60 * 1000) { //more than 5 min
-            let from = lrd
-            let to = new Date()
-            let records = await fetchOneSensor(device.device_id, type.name, from, to)
-            for (let record of records) {
-              sensorTable.insert(
-                ['time', 'name', 'device_id', 'type', 'value'],
-                [record.ts, device.name, record.sensorid, type.name, record.value]
-              )
-            }
-            sensorTable.removeDuplicate()
-            syncLongTable.update(
-              ['first_record_date', 'last_record_date'],
-              [lrd.toLocaleString(), to.toLocaleString()],
-              `id=${syncLog.id}`)
-            await sleep(10000) // avoid too much requests
-          }
+          await sensorTable.removeDuplicate()
+          await sleep(2000) // avoid too many requests
         }
+
       }
 
     }
