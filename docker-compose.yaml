@@ -19,7 +19,7 @@ services:
         depends_on: [postgres]
         restart: always
         ports:
-            - 8080:9090
+            - "${REST_PORT}":"${REST_PORT}"
         environment: 
             DATABASE_URL: "postgres://postgres:${PG_PASSWORD}@postgres:5432/postgres"
             REST_PORT: "${REST_PORT}"
