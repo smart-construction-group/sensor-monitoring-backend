@@ -91,11 +91,10 @@ export async function sensorsFetchEngine(db: DB) {
             [to.toLocaleString()],
             `id=${syncLog.id}`)
 
+            await sleep(1000) // avoid too many requests
+          }
           await sensorTable.removeDuplicate()
-          await sleep(1000) // avoid too many requests
         }
-
-      }
 
     }
 
