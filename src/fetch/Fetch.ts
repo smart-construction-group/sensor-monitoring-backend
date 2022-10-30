@@ -86,7 +86,7 @@ export async function sensorsFetchEngine(db: DB) {
             )
           }
           
-          syncLongTable.update(
+          await syncLongTable.update(
             ['last_record_date'],
             [to.toLocaleString()],
             `id=${syncLog.id}`)
