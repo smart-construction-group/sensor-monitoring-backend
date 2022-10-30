@@ -57,8 +57,8 @@ export async function sensorsFetchEngine(db: DB) {
 
         /* If there's no record for this device */
         if (!syncLog) {
-          let from = new Date("2022-09-1")
-          let to = new Date("2022-09-1")
+          let from = new Date("2022-09-01")
+          let to = new Date("2022-09-01")
 
           await syncLongTable.insert(
             ['device_id', 'type', 'first_record_date', 'last_record_date'],
@@ -71,9 +71,9 @@ export async function sensorsFetchEngine(db: DB) {
 
         let to = new Date(syncLog.last_record_date)
         let currentDate = new Date()
-
+        
         while(to < currentDate){
-          let from = new Date(syncLog.last_record_date)
+          let from = new Date(to)
           to.setDate(to.getDate() + 1)
           if(to > currentDate){
             to = currentDate
