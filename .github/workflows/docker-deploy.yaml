@@ -10,4 +10,4 @@ jobs:
         uses: actions/checkout@v3
       -
         name: Docker Build
-        run: docker-compose up --build server -d
+        run: docker-compose up --build -d
