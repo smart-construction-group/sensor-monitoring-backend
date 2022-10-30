@@ -8,6 +8,11 @@ services:
         environment:
             POSTGRES_PASSWORD: "${PG_PASSWORD}"
             POSTGRES_DB: postgres
+            REST_PORT: "${REST_PORT}"
+            HIBOU_URL: "${HIBOU_URL}"
+            HIBOU_CODE: "${HIBOU_CODE}"
+            HIBOU_KEY: "${HIBOU_KEY}"
+            HIBOU_APP: "${HIBOU_APP}"
         volumes:
             - /db_data:/var/lib/postgresql/data
         ports:
