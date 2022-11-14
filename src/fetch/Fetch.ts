@@ -4,12 +4,13 @@ import { DB } from "../db/DB";
 import { TypeTable } from "../db/TypeTable";
 import { SyncLogTable } from "../db/SyncLogTable";
 import { SensorTable } from "../db/SensorTable";
+import { parseData } from "./Parser";
 
 const axios = require("axios")
 
-type SensorValue = {
+export type SensorValue = {
   sensorid: string;
-  value: string;
+  value: string|number;
   ts: string;
 };
 
@@ -79,6 +80,7 @@ export async function sensorsFetchEngine(db: DB) {
             to = currentDate
           }
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
+          records = parseData(type, records)
           for (let record of records) {
             sensorTable.insert(
               ['time', 'name', 'device_id', 'type', 'value'],
