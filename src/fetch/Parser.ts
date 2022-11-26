@@ -18,7 +18,8 @@ export function parseData(sensorType: String, data: Object[]): SensorValue[] {
             time.setHours(data[i]["h"], 0, 0, 0);
 
             var newRecord = {
-              sensorid: targetSensors[j],
+              type: targetSensors[j],
+              sensorid: data[i]['sensorid'],
               value,
               ts: time,
             };
@@ -28,8 +29,12 @@ export function parseData(sensorType: String, data: Object[]): SensorValue[] {
         }
       }
       return parsed;
-    } catch (e) {}
+    } catch (e) { }
   } else {
+    data = data.map(d => {
+      d['type'] = sensorType
+      return d
+    })
     return <SensorValue[]>data;
   }
 }

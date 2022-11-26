@@ -10,8 +10,9 @@ const axios = require("axios")
 
 export type SensorValue = {
   sensorid: string;
-  value: string|number;
+  value: string | number;
   ts: string;
+  type: string;
 };
 
 export async function fetchOneSensor(sensorId: string, type: string, from: Date, to: Date): Promise<SensorValue[]> {
@@ -72,11 +73,11 @@ export async function sensorsFetchEngine(db: DB) {
 
         let to = new Date(syncLog.last_record_date)
         let currentDate = new Date()
-        
-        while(to < currentDate){
+
+        while (to < currentDate) {
           let from = new Date(to)
           to.setDate(to.getDate() + 1)
-          if(to > currentDate){
+          if (to > currentDate) {
             to = currentDate
           }
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
@@ -84,19 +85,19 @@ export async function sensorsFetchEngine(db: DB) {
           for (let record of records) {
             sensorTable.insert(
               ['time', 'name', 'device_id', 'type', 'value'],
-              [record.ts, device.name, record.sensorid, type.name, record.value]
+              [record.ts, device.name, record.sensorid, record.type, record.value]
             )
           }
-          
+
           await syncLongTable.update(
             ['last_record_date'],
             [to.toLocaleString()],
             `id=${syncLog.id}`)
 
-            await sleep(1000) // avoid too many requests
-          }
-          await sensorTable.removeDuplicate()
+          await sleep(1000) // avoid too many requests
         }
+        await sensorTable.removeDuplicate()
+      }
 
     }
 
