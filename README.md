@@ -67,6 +67,7 @@ docker ps
 You're going to need a database interface tool, select one you're comfortable with, we recommend Jetbrains DataGrip.
 Connect the interface to your database with the credentials specified in the installation command.
 You can find 4 tables in the `pollution_heatmap` schema. You should fill the type table and device table yourself. The fetching mechanism will look into these two tables to start the fetching process, as long as they are empty fetching won't start.
+![image](https://user-images.githubusercontent.com/5804816/204128804-c13d85de-bbf4-47ac-a6d3-6e59d44fc486.png)
 
 You should fill up the tables with following data. These records might change through time so please verify with Hibou API.
 * type
