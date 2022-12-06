@@ -4,7 +4,8 @@ on: [push]
 jobs:
   deploy:
     runs-on: self-hosted
-    environment: production
+    environment:
+      name: production
     steps:
       -
         name: Checkout
