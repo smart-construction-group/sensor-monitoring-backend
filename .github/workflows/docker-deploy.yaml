@@ -4,6 +4,7 @@ on: [push]
 jobs:
   deploy:
     runs-on: self-hosted
+    environment: app env
     steps:
       -
         name: Checkout
