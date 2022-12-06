@@ -39,7 +39,6 @@ docker-compose --version
 The following environment variables are needed to setup the database, connect to Hibou API. You can add them either with creating a `.env` file within the code root or by exporting each using `export KEY=VALUE` command. Also if you're using Github actions as CI provider, you can specify environment in the Runner's config.
 ```
 PG_PASSWORD = "<postgres_password>"
-DATABASE_URL = "postgres://postgres:<postgres_password>@localhost:30432/postgres"
 REST_PORT=9090
 HIBOU_URL = "https://www.hibouconnect.com/tapi"
 HIBOU_CODE = "<hibou_api_code>"
