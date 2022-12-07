@@ -61,7 +61,8 @@ export async function sensorsFetchEngine(db: DB) {
         if (!syncLog) {
           let from = new Date("2022-09-01")
           let to = new Date("2022-09-01")
-
+          console.log("from:", from)
+          console.log("to:", to)
           await syncLongTable.insert(
             ['device_id', 'type', 'first_record_date', 'last_record_date'],
             [device.device_id, type.name, from, to]
@@ -82,6 +83,7 @@ export async function sensorsFetchEngine(db: DB) {
           }
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
           records = parseData(type.name, records)
+          console.log("Record ts: ", records[0].ts)
           for (let record of records) {
             sensorTable.insert(
               ['time', 'name', 'device_id', 'type', 'value'],
