@@ -11,9 +11,6 @@ jobs:
       xxx3: ${{ github.production }}
     steps:
       -
-        name: Testing environment
-        run: echo ${{environment}}
-      -
         name: Checkout
         uses: actions/checkout@v3
       -
