@@ -7,14 +7,12 @@ jobs:
     environment:
       name: production
     env:
-      xxx1: ${{ production.REST_PORT }}
       xxx2: ${{ environment.REST_PORT }}
       xxx3: ${{ environment }}
-      xxx4: ${{ production }}
     steps:
       -
         name: Testing environment
-        run: echo ${{production}}
+        run: echo ${{environment}}
       -
         name: Checkout
         uses: actions/checkout@v3
