@@ -61,8 +61,6 @@ export async function sensorsFetchEngine(db: DB) {
         if (!syncLog) {
           let from = new Date("2022-09-01")
           let to = new Date("2022-09-01")
-          console.log("from:", from)
-          console.log("to:", to)
           await syncLongTable.insert(
             ['device_id', 'type', 'first_record_date', 'last_record_date'],
             [device.device_id, type.name, from, to]
@@ -81,20 +79,14 @@ export async function sensorsFetchEngine(db: DB) {
           if (to > currentDate) {
             to = currentDate
           }
-          console.log("from2:", from)
-          console.log("to2:", to)
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
           records = parseData(type.name, records)
-          if (records.length > 0)
-            console.log("Record ts: ", records[0].ts)
           for (let record of records) {
-            console.log("Record ts: ", record.ts)
             sensorTable.insert(
               ['time', 'name', 'device_id', 'type', 'value'],
               [record.ts, device.name, record.sensorid, record.type, record.value]
             )
           }
-          console.log("tolocale", to.toISOString())
           await syncLongTable.update(
             ['last_record_date'],
             [to.toISOString()],
