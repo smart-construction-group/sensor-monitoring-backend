@@ -8,7 +8,11 @@ jobs:
       name: production
     env:
       REST_PORT: ${{ secrets.REST_PORT }}
-      xxx3: ${{ secrets.HIBOU_URL }}
+      PG_PASSWORD: ${{secrets.PG_PASSWORD}}
+      HIBOU_URL: ${{secrets.HIBOU_URL}}
+      HIBOU_CODE: ${{secrets.HIBOU_CODE}}
+      HIBOU_KEY: ${{secrets.HIBOU_KEY}}
+      HIBOU_APP: ${{secrets.HIBOU_APP}}
     steps:
       -
         name: Checkout
