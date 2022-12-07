@@ -83,7 +83,8 @@ export async function sensorsFetchEngine(db: DB) {
           }
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
           records = parseData(type.name, records)
-          console.log("Record ts: ", records[0].ts)
+          if (records.length > 0)
+            console.log("Record ts: ", records[0].ts)
           for (let record of records) {
             sensorTable.insert(
               ['time', 'name', 'device_id', 'type', 'value'],
