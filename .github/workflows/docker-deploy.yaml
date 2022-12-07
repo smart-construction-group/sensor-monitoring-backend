@@ -7,8 +7,8 @@ jobs:
     environment:
       name: production
     env:
-      xxx2: ${{ github.environment }}
-      xxx3: ${{ github.production }}
+      xxx2: ${{ secrets.REST_PORT }}
+      xxx3: ${{ secrets.HIBOU_URL }}
     steps:
       -
         name: Checkout
