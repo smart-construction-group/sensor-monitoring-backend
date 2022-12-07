@@ -81,6 +81,8 @@ export async function sensorsFetchEngine(db: DB) {
           if (to > currentDate) {
             to = currentDate
           }
+          console.log("from2:", from)
+          console.log("to2:", to)
           let records = await fetchOneSensor(device.device_id, type.name, from, to)
           records = parseData(type.name, records)
           if (records.length > 0)
