@@ -94,10 +94,10 @@ export async function sensorsFetchEngine(db: DB) {
               [record.ts, device.name, record.sensorid, record.type, record.value]
             )
           }
-          console.log("tolocale", to.toLocaleString())
+          console.log("tolocale", to.toISOString())
           await syncLongTable.update(
             ['last_record_date'],
-            [to.toLocaleString()],
+            [to.toISOString()],
             `id=${syncLog.id}`)
 
           await sleep(1000) // avoid too many requests
