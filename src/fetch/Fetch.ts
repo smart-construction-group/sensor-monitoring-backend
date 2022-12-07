@@ -88,12 +88,13 @@ export async function sensorsFetchEngine(db: DB) {
           if (records.length > 0)
             console.log("Record ts: ", records[0].ts)
           for (let record of records) {
+            console.log("Record ts: ", record.ts)
             sensorTable.insert(
               ['time', 'name', 'device_id', 'type', 'value'],
               [record.ts, device.name, record.sensorid, record.type, record.value]
             )
           }
-
+          console.log("tolocale", to)
           await syncLongTable.update(
             ['last_record_date'],
             [to.toLocaleString()],
