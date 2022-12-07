@@ -7,8 +7,8 @@ jobs:
     environment:
       name: production
     env:
-      xxx2: ${{ environment.REST_PORT }}
-      xxx3: ${{ environment }}
+      xxx2: ${{ github.environment }}
+      xxx3: ${{ github.production }}
     steps:
       -
         name: Testing environment
