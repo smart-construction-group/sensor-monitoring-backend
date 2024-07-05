@@ -1,9 +1,35 @@
 # Sensor Monitoring Backend
-This source is the backend for the Pollution Monitoring Dashboard. It's a poller that periodically fetches data from the sensor API and stores them in the Postgresql database.
+
+This source is the backend for the Pollution Monitoring Dashboard. It's a poller that periodically fetches data from the
+sensor API and stores them in the Postgresql database.
 In order to setup and run, you need Docker and Postgres installed. Follow the instruction below.
 
+# Poller
+
+## Key Responsibilities of the Backend
+
+### Data Management
+
+The primary responsibility of the backend is to periodically fetch data from various sensors and store it in the
+database. This continuous data collection ensures a comprehensive historical record of sensor readings, which is crucial
+for tracking trends and patterns over time. By maintaining this data centrally, we also streamline interactions with the
+frontend dashboard, enabling efficient data retrieval and visualization.
+
+![img.png](img.png)
+
+### API Provision
+
+The backend serves as a critical intermediary that provides robust APIs to the frontend. These APIs allow the frontend
+to engage with the stored data effectively. Users can execute advanced queries and perform complex data aggregations
+through these interfaces. This capability supports a dynamic and interactive user experience on the frontend dashboard,
+where data can be manipulated and displayed according to specific user needs.
+
+# Installation
+
 ## Install Docker
+
 The following installation script is built for Ubuntu16+, for other distributions of linux please search online.
+
 ```
 sudo apt-get remove docker docker-engine docker.io containerd runc
 sudo apt-get -y update
@@ -27,7 +53,9 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 # verify docker is installed correctly 
 sudo docker run hello-world
 ```
+
 ## Install Docker Compose
+
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
@@ -36,7 +64,10 @@ docker-compose --version
 
 ## Define Environments
 
-The following environment variables are needed to setup the database, connect to Hibou API. You can add them either with creating a `.env` file within the code root or by exporting each using `export KEY=VALUE` command. Also if you're using Github actions as CI provider, you can specify environment in the repository config.
+The following environment variables are needed to setup the database, connect to Hibou API. You can add them either with
+creating a `.env` file within the code root or by exporting each using `export KEY=VALUE` command. Also if you're using
+Github actions as CI provider, you can specify environment in the repository config.
+
 ```
 PG_PASSWORD = "<postgres_password>"
 REST_PORT=9090
@@ -49,14 +80,19 @@ HIBOU_APP = "hibou5775"
 ## Run the source code
 
 Clone this repository
+
 ```
 git clone https://github.com/smart-construction-group/sensor-monitoring-backend
 ```
+
 Install with docker compose
+
 ```
 docker-compose up -d
 ```
+
 verify the app is running
+
 ```
 docker ps
 ```
@@ -65,10 +101,14 @@ docker ps
 
 You're going to need a database interface tool, select one you're comfortable with, we recommend Jetbrains DataGrip.
 Connect the interface to your database with the credentials specified in the installation command.
-You can find 4 tables in the `pollution_heatmap` schema. You should fill the type table and device table yourself. The fetching mechanism will look into these two tables to start the fetching process, as long as they are empty fetching won't start.
+You can find 4 tables in the `pollution_heatmap` schema. You should fill the type table and device table yourself. The
+fetching mechanism will look into these two tables to start the fetching process, as long as they are empty fetching
+won't start.
 ![image](https://user-images.githubusercontent.com/5804816/204128804-c13d85de-bbf4-47ac-a6d3-6e59d44fc486.png)
 
-You should fill up the tables with following data. These records might change through time so please verify with Hibou API.
+You should fill up the tables with following data. These records might change through time so please verify with Hibou
+API.
+
 * type
 
 ```
@@ -81,6 +121,7 @@ You should fill up the tables with following data. These records might change th
 ```
 
 * device
+
 ```
 28,02_ComputerLab_012_Near,ssd_42C322,271,270
 29,12_Guthrie_028_Door,ssd_432541,348,546
@@ -112,10 +153,15 @@ You should fill up the tables with following data. These records might change th
 55,29_GuthrieLT_028_Front,ssd_056E8B,207,651
 ```
 
-Note: the location_x and location_y columns are pixel location of the sensors on the corresponding UI canvas on client dashboard.
+Note: the location_x and location_y columns are pixel location of the sensors on the corresponding UI canvas on client
+dashboard.
 
 After filling these two tables the fetching process will start.
-The sensor data is saved in `sensor` table and the log of progress is saved in `sync_log` table. It is a slow fetching process as we don't want to encounter `too many requests` error from Hibou API.
-The fetching starts at `1 September 2022`, in order to change it you should look for `let from = new Date("2022-09-01")` in the code at `/src/fetch/Fetch.ts`.
+The sensor data is saved in `sensor` table and the log of progress is saved in `sync_log` table. It is a slow fetching
+process as we don't want to encounter `too many requests` error from Hibou API.
+The fetching starts at `1 September 2022`, in order to change it you should look for `let from = new Date("2022-09-01")`
+in the code at `/src/fetch/Fetch.ts`.
 
-In case something is wrong with the data recorded in the sensor table, after you fixed the issue in code, you can remove the sync_log for that particular corrupted data and the fetching for that data will restart. Note that there's the code never updates the sensor table records so make sure you removed the corrupted data too.
+In case something is wrong with the data recorded in the sensor table, after you fixed the issue in code, you can remove
+the sync_log for that particular corrupted data and the fetching for that data will restart. Note that there's the code
+never updates the sensor table records so make sure you removed the corrupted data too.
