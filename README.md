@@ -1,10 +1,6 @@
 # Sensor Monitoring Backend
 
-This source is the backend for the Pollution Monitoring Dashboard. It's a poller that periodically fetches data from the
-sensor API and stores them in the Postgresql database.
-In order to setup and run, you need Docker and Postgres installed. Follow the instruction below.
-
-# Poller
+This backend serves the Pollution Monitoring Dashboard by periodically polling the sensor API for data and storing it in a PostgreSQL database. To set up and run the backend, ensure Docker and PostgreSQL are installed on your system. Follow the instructions below for detailed setup steps.
 
 ## Key Responsibilities of the Backend
 
