@@ -24,6 +24,9 @@ to engage with the stored data effectively. Users can execute advanced queries a
 through these interfaces. This capability supports a dynamic and interactive user experience on the frontend dashboard,
 where data can be manipulated and displayed according to specific user needs.
 
+### Containerization
+Containerization, a lightweight form of virtualization, encapsulates an application and its dependencies into a single, isolated unit called a container. **Docker**, a leading platform for containerization, provides a standardized framework for creating, deploying, and managing containers. By utilizing Docker in our application, we achieve several significant benefits. Firstly, Docker ensures consistent runtime environments across different stages of development, testing, and production. Secondly, it enhances the portability of our application, allowing it to run seamlessly on any system with Docker installed, regardless of underlying hardware or operating system discrepancies. Thirdly, Docker's efficient resource management reduces overhead, enabling multiple containers to run on a single host without the resource-intensive nature of traditional virtual machines. These advantages collectively improve the utility and robustness of our application, ensuring reliable performance and facilitating continuous integration and deployment workflows.
+
 # Installation
 
 ## Install Docker
