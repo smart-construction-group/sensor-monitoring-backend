@@ -17,6 +17,9 @@ frontend dashboard, enabling efficient data retrieval and visualization.
 
 ![img.png](img.png)
 
+### Data Integrity
+Our backend code ensures data from external sensors is correctly formatted and maintains record integrity. Robust validation mechanisms check incoming data for correctness, flagging and handling any erroneous entries. Secure transmission protocols protect data in transit, preventing tampering or alteration. This approach guarantees accurate records and enhances the reliability and security of our application.
+
 ### API Provision
 
 The backend serves as a critical intermediary that provides robust APIs to the frontend. These APIs allow the frontend
